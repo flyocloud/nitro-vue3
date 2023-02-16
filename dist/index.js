@@ -1,6 +1,4 @@
-'use strict';
-
-var vue = require('vue');
+import { openBlock, createBlock, resolveDynamicComponent, resolveComponent, createElementBlock, renderSlot, normalizeProps, mergeProps, Fragment, renderList, createCommentVNode } from 'vue';
 
 var script$1 = {
     props: {
@@ -12,7 +10,7 @@ var script$1 = {
 };
 
 function render$1(_ctx, _cache, $props, $setup, $data, $options) {
-  return (vue.openBlock(), vue.createBlock(vue.resolveDynamicComponent(_ctx.resolveComponent($props.item.component)), {
+  return (openBlock(), createBlock(resolveDynamicComponent(_ctx.resolveComponent($props.item.component)), {
     config: $props.item.config,
     content: $props.item.content,
     items: $props.item.items,
@@ -33,19 +31,19 @@ var script = {
 };
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  const _component_FlyoBlock = vue.resolveComponent("FlyoBlock");
+  const _component_FlyoBlock = resolveComponent("FlyoBlock");
 
-  return (vue.openBlock(), vue.createElementBlock("div", null, [
+  return (openBlock(), createElementBlock("div", null, [
     ($props.page)
-      ? vue.renderSlot(_ctx.$slots, "default", vue.normalizeProps(vue.mergeProps({ key: 0 }, $props.page)), () => [
-          (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList($props.page.json, (item) => {
-            return (vue.openBlock(), vue.createBlock(_component_FlyoBlock, {
+      ? renderSlot(_ctx.$slots, "default", normalizeProps(mergeProps({ key: 0 }, $props.page)), () => [
+          (openBlock(true), createElementBlock(Fragment, null, renderList($props.page.json, (item) => {
+            return (openBlock(), createBlock(_component_FlyoBlock, {
               key: item.uid,
               item: item
             }, null, 8 /* PROPS */, ["item"]))
           }), 128 /* KEYED_FRAGMENT */))
         ])
-      : vue.createCommentVNode("v-if", true)
+      : createCommentVNode("v-if", true)
   ]))
 }
 
@@ -54,4 +52,4 @@ script.__file = "src/Page.vue";
 
 var index = { Block: script$1, Page: script };
 
-module.exports = index;
+export { index as default };
