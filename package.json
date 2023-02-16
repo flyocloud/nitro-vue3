@@ -1,6 +1,6 @@
 {
   "name": "@flyodev/nitrocms-vue3",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Vue3 Components for Nitro CMS",
   "main": "dist/index.js",
   "repository": "git@github.com:flyocloud/nitrocms-vue3.git",
