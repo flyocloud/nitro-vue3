@@ -7,6 +7,11 @@
   resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.20.15.tgz#eec9f36d8eaf0948bb88c87a46784b5ee9fd0c89"
   integrity sha512-DI4a1oZuf8wC+oAJA9RW6ga3Zbe8RZFt7kD9i4qAspz3I/yHet1VvC3DiSy/fsUvv5pvJuNPh0LPOdCcqinDPg==
 
+"@flyodev/nitrocms-vue3@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@flyodev/nitrocms-vue3/-/nitrocms-vue3-1.0.0.tgz#41f2a9e59c48b0088789bd8fb18b1c4fdfd617ed"
+  integrity sha512-y+9FYy/FRGqZdXBWfTrGPFOhgbTVrRTn6unPlWMrXkXE7EAiRG2L8pqXT14wnkPZXWIVz+JiXTKBaIhznTyf9g==
+
 "@vue/compiler-core@3.2.47":
   version "3.2.47"
   resolved "https://registry.yarnpkg.com/@vue/compiler-core/-/compiler-core-3.2.47.tgz#3e07c684d74897ac9aa5922c520741f3029267f8"
