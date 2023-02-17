@@ -22,6 +22,7 @@ script$1.render = render$1;
 script$1.__file = "src/Block.vue";
 
 var script = {
+    components: { Block: script$1 },
     props: {
         page: {
             type: Object,
@@ -31,13 +32,13 @@ var script = {
 };
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  const _component_FlyoBlock = resolveComponent("FlyoBlock");
+  const _component_Block = resolveComponent("Block");
 
   return (openBlock(), createElementBlock("div", null, [
     ($props.page)
       ? renderSlot(_ctx.$slots, "default", normalizeProps(mergeProps({ key: 0 }, $props.page)), () => [
           (openBlock(true), createElementBlock(Fragment, null, renderList($props.page.json, (item) => {
-            return (openBlock(), createBlock(_component_FlyoBlock, {
+            return (openBlock(), createBlock(_component_Block, {
               key: item.uid,
               item: item
             }, null, 8 /* PROPS */, ["item"]))

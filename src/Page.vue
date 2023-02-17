@@ -4,7 +4,7 @@
             v-if="page"
             v-bind="page"
         >
-            <FlyoBlock
+            <Block
                 v-for="item in page.json"
                 :key="item.uid"
                 :item="item"
@@ -14,7 +14,9 @@
 </template>
 
 <script>
+import Block from './Block.vue'
 export default {
+    components: { Block },
     props: {
         page: {
             type: Object,
