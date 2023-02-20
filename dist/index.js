@@ -1,16 +1,16 @@
 import { openBlock, createBlock, resolveDynamicComponent, resolveComponent, createElementBlock, renderSlot, normalizeProps, mergeProps, Fragment, renderList, createCommentVNode } from 'vue';
 
 var script$1 = {
-    props: {
-        item: {
-            type: Object,
-            default: () => {}
-        }
+  props: {
+    item: {
+      type: Object,
+      default: () => {}
     }
+  }
 };
 
 function render$1(_ctx, _cache, $props, $setup, $data, $options) {
-  return (openBlock(), createBlock(resolveDynamicComponent(_ctx.resolveComponent($props.item.component)), {
+  return (openBlock(), createBlock(resolveDynamicComponent($props.item.component), {
     config: $props.item.config,
     content: $props.item.content,
     items: $props.item.items,
@@ -22,13 +22,13 @@ script$1.render = render$1;
 script$1.__file = "src/Block.vue";
 
 var script = {
-    components: { Block: script$1 },
-    props: {
-        page: {
-            type: Object,
-            default: false
-        }
-    },
+  components: { Block: script$1 },
+  props: {
+    page: {
+      type: Object,
+      default: false
+    }
+  },
 };
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
