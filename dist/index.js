@@ -51,6 +51,4 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 script.render = render;
 script.__file = "src/Page.vue";
 
-var index = { Block: script$1, Page: script };
-
-export { index as default };
+export { script$1 as Block, script as Page };
