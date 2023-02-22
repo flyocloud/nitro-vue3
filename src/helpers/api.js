@@ -1,4 +1,4 @@
-import { ApiClient, ConfigApi, PagesApi, EntitiesApi, SitemapApi, ContentApi } from '@flyodev/nitrocms-js'
+import { ApiClient } from '@flyodev/nitrocms-js'
 
 const initFlyoApi = ({ token, basePath, defaultHeaders }) => {
 	const defaultClient = ApiClient.instance
@@ -14,17 +14,4 @@ const initFlyoApi = ({ token, basePath, defaultHeaders }) => {
   ApiKeyAuth.apiKey = token
 }
 
-const flyoConfigApi = new ConfigApi()
-const flyoPagesApi = new PagesApi()
-const flyoEntitiesApi = new EntitiesApi()
-const flyoSitemapApi = new SitemapApi()
-const flyoContentApi = new ContentApi()
-
 export default initFlyoApi
-export {
-	flyoConfigApi,
-	flyoPagesApi,
-	flyoEntitiesApi,
-	flyoSitemapApi,
-	flyoContentApi
-}

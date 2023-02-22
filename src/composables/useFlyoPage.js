@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import { flyoPagesApi } from '../helpers/api'
+import { PagesApi } from '@flyodev/nitrocms-js'
 import { useFlyoContent } from './useFlyoContent'
 
 /**
@@ -13,7 +13,7 @@ export const useFlyoPage = async(slug) => {
   const error = ref(null)
 
   try {
-    page.value = await flyoPagesApi.page({slug: slug})
+    page.value = await new PagesApi().page({slug: slug})
   } catch (error) {
     error.value = error
   }

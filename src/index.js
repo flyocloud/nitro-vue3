@@ -16,4 +16,3 @@ const FlyoVue = {
 export default FlyoVue
 export { FlyoVue, Block, Page }
 export * from './composables/index'
-export * from './helpers/api'

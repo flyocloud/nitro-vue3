@@ -1,4 +1,4 @@
-import { ConfigApi, PagesApi, EntitiesApi, SitemapApi, ContentApi, ApiClient } from '@flyodev/nitrocms-js';
+import { ApiClient, ConfigApi, EntitiesApi, PagesApi, SitemapApi } from '@flyodev/nitrocms-js';
 import { openBlock, createBlock, resolveDynamicComponent, resolveComponent, createElementBlock, renderSlot, normalizeProps, mergeProps, Fragment, renderList, createCommentVNode, reactive, toRefs, inject, ref } from 'vue';
 
 const initFlyoApi = ({ token, basePath, defaultHeaders }) => {
@@ -14,12 +14,6 @@ const initFlyoApi = ({ token, basePath, defaultHeaders }) => {
   const ApiKeyAuth = defaultClient.authentications["ApiKeyAuth"];
   ApiKeyAuth.apiKey = token;
 };
-
-const flyoConfigApi = new ConfigApi();
-const flyoPagesApi = new PagesApi();
-const flyoEntitiesApi = new EntitiesApi();
-const flyoSitemapApi = new SitemapApi();
-const flyoContentApi = new ContentApi();
 
 var script$1 = {
   name: 'FlyoBlock',
@@ -122,7 +116,7 @@ const useFlyoContent = (pageId) => {
         uid: blockUid,
         authentication
       };
-      await flyoConfigApi.putContent(pageId, {content: payload});
+      await await new ConfigApi().putContent(pageId, {content: payload});
     } catch (e) {
       console.error(e);
     }
@@ -138,7 +132,7 @@ const useFlyoEntity = async (uniqueid) => {
   const response = ref(null);
 
   try {
-    response.value = await flyoEntitiesApi.entity(uniqueid);
+    response.value = await new EntitiesApi().entity(uniqueid);
   } catch (e) {
     response.value = false;
   }
@@ -159,7 +153,7 @@ const useFlyoPage = async(slug) => {
   const error = ref(null);
 
   try {
-    page.value = await flyoPagesApi.page({slug: slug});
+    page.value = await new PagesApi().page({slug: slug});
   } catch (error) {
     error.value = error;
   }
@@ -179,7 +173,7 @@ const useFlyoSitemap = async () => {
   const sitemap = ref(false);
 
   try {
-    sitemap.value = await flyoSitemapApi.sitemap();
+    sitemap.value = await new SitemapApi().sitemap();
   } catch (e) {
     sitemap.value = false;
   }
@@ -200,4 +194,4 @@ const FlyoVue = {
 	}
 };
 
-export { script$1 as Block, FlyoVue, script as Page, FlyoVue as default, flyoConfigApi, flyoContentApi, flyoEntitiesApi, flyoPagesApi, flyoSitemapApi, useFlyoConfig, useFlyoContent, useFlyoEntity, useFlyoPage, useFlyoSitemap };
+export { script$1 as Block, FlyoVue, script as Page, FlyoVue as default, useFlyoConfig, useFlyoContent, useFlyoEntity, useFlyoPage, useFlyoSitemap };

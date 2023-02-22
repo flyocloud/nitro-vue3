@@ -1,12 +1,12 @@
 import { ref } from 'vue'
-import { flyoSitemapApi } from '../helpers/api'
+import { SitemapApi } from '@flyodev/nitrocms-js'
 
 export const useFlyoSitemap = async () => {
 
   const sitemap = ref(false)
 
   try {
-    sitemap.value = await flyoSitemapApi.sitemap()
+    sitemap.value = await new SitemapApi().sitemap()
   } catch (e) {
     sitemap.value = false
   }
