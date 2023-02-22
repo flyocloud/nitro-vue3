@@ -10,6 +10,7 @@
 
 <script>
 export default {
+  name: 'FlyoBlock',
   props: {
     item: {
       type: Object,
