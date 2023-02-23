@@ -24,6 +24,6 @@
     "rollup-plugin-vue": "^6.0.0"
   },
   "dependencies": {
-    "@flyodev/nitrocms-vue3": "^1.0.0"
+    "@flyodev/nitrocms-js": "^1.0"
   }
 }
