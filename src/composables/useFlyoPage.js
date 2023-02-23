@@ -2,27 +2,30 @@ import { ref } from 'vue'
 import { PagesApi } from '@flyodev/nitrocms-js'
 import { useFlyoContent } from './useFlyoContent'
 
-/**
- * Resolves the page for a given route
- * @see https://stackoverflow.com/a/69208479/4611030
- * @see https://nuxt.com/docs/guide/directory-structure/composables
- * @see https://vuejs.org/guide/reusability/composables.html
- */
-export const useFlyoPage = async(slug) => {
-  const page = ref(null)
+export const useFlyoPage = () => {
+  const isLoading = ref(false)
+  const response = ref(null)
   const error = ref(null)
 
-  try {
-    page.value = await new PagesApi().page({slug: slug})
-  } catch (error) {
-    error.value = error
+  const fetch = async (slug) => {
+    try {
+      error.value = null
+      isLoading.value = true
+      response.value = await new PagesApi().page({ slug })
+    } catch (e) {
+      isLoading.value = false
+      response.value = null
+      error.value = e
+    }
   }
-  
-  const { putContent, isEditable } = useFlyoContent(page.value.id)
-  
+
+  const { putContent, isEditable } = useFlyoContent()
+
   return {
-    page: page,
-    error: error,
+    isLoading,
+    response,
+    error,
+    fetch,
     putContent,
     isEditable
   }

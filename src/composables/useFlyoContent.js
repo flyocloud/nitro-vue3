@@ -1,9 +1,9 @@
 import { inject } from 'vue'
 import { ConfigApi } from '@flyodev/nitrocms-js'
 
-export const useFlyoContent = (pageId) => {
-  const isEditable = (authentication) => {
-    const allowEdit = inject('allowEdit')
+export const useFlyoContent = () => {
+  const isEditable = (pageId, authentication) => {
+    const { allowEdit } = inject('flyo')
 
     if (authentication && allowEdit) {
       return true
@@ -12,7 +12,7 @@ export const useFlyoContent = (pageId) => {
     return false
   }
 
-  const putContent = async (blockUid, contentIdentifier, authentication, newValue) => {
+  const putContent = async (pageId, blockUid, contentIdentifier, authentication, newValue) => {
     try {
       const payload = {
         value: newValue,

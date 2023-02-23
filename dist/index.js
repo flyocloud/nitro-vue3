@@ -1,5 +1,6 @@
+import { defineStore, createPinia } from 'pinia';
 import { ApiClient, ConfigApi, EntitiesApi, PagesApi, SitemapApi } from '@flyodev/nitrocms-js';
-import { openBlock, createBlock, resolveDynamicComponent, resolveComponent, createElementBlock, renderSlot, normalizeProps, mergeProps, Fragment, renderList, createCommentVNode, reactive, toRefs, inject, ref } from 'vue';
+import { openBlock, createBlock, resolveDynamicComponent, resolveComponent, createElementBlock, renderSlot, normalizeProps, mergeProps, Fragment, renderList, createCommentVNode, ref, inject } from 'vue';
 
 const initFlyoApi = ({ token, basePath, defaultHeaders }) => {
   const defaultClient = ApiClient.instance;
@@ -67,39 +68,35 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 script.render = render;
 script.__file = "src/components/Page.vue";
 
-const state = reactive({
-  config: false,
-  loading: true
+const useFlyoConfig = defineStore('flyoConfig', () => {
+	const isLoading = ref(null);
+	const response = ref(null);
+  const error = ref(null);
+
+	const fetch = async () => {
+		try {
+      error.value = null;
+      isLoading.value = true;
+      response.value = await new ConfigApi().config();
+      isLoading.value = false;
+    } catch (e) {
+			isLoading.value = false;
+			response.value = null;
+      error.value = e;
+    }
+	};
+
+  return {
+		response,
+		isLoading,
+    error,
+		fetch
+	}
 });
 
-/**
- * @see https://stackoverflow.com/a/69208479/4611030
- * @see https://nuxt.com/docs/guide/directory-structure/composables
- * @see https://vuejs.org/guide/reusability/composables.html
- */
-const useFlyoConfig = () => {
-
-  const fetchConfig = async () => {
-    try {
-      state.loading = true;
-      state.config = await new ConfigApi().config();
-      state.loading = false;
-    } catch (e) {
-      console.error(e);
-    }
-
-    return state.config
-  };
-  
-  return {
-    ...toRefs(state),
-    fetchConfig
-  }
-};
-
-const useFlyoContent = (pageId) => {
-  const isEditable = (authentication) => {
-    const allowEdit = inject('allowEdit');
+const useFlyoContent = () => {
+  const isEditable = (pageId, authentication) => {
+    const { allowEdit } = inject('flyo');
 
     if (authentication && allowEdit) {
       return true
@@ -108,7 +105,7 @@ const useFlyoContent = (pageId) => {
     return false
   };
 
-  const putContent = async (blockUid, contentIdentifier, authentication, newValue) => {
+  const putContent = async (pageId, blockUid, contentIdentifier, authentication, newValue) => {
     try {
       const payload = {
         value: newValue,
@@ -128,69 +125,108 @@ const useFlyoContent = (pageId) => {
   }
 };
 
-const useFlyoEntity = async (uniqueid) => {
+const useFlyoEntity = () => {
+  const isLoading = ref(false);
   const response = ref(null);
+  const error = ref(null);
 
-  try {
-    response.value = await new EntitiesApi().entity(uniqueid);
-  } catch (e) {
-    response.value = false;
-  }
-  
+  const fetch = async (uniqueid) => {
+    try {
+      error.value = null;
+      isLoading.value = true;
+      response.value = await new EntitiesApi().entity(uniqueid);
+    } catch (e) {
+      isLoading.value = false;
+      response.value = null;
+      error.value = e;
+    }
+  };
+
   return {
-    response: response
+    isLoading,
+    response,
+    error,
+    fetch
   }
 };
 
-/**
- * Resolves the page for a given route
- * @see https://stackoverflow.com/a/69208479/4611030
- * @see https://nuxt.com/docs/guide/directory-structure/composables
- * @see https://vuejs.org/guide/reusability/composables.html
- */
-const useFlyoPage = async(slug) => {
-  const page = ref(null);
+const useFlyoPage = () => {
+  const isLoading = ref(false);
+  const response = ref(null);
   const error = ref(null);
 
-  try {
-    page.value = await new PagesApi().page({slug: slug});
-  } catch (error) {
-    error.value = error;
-  }
-  
-  const { putContent, isEditable } = useFlyoContent(page.value.id);
-  
+  const fetch = async (slug) => {
+    try {
+      error.value = null;
+      isLoading.value = true;
+      response.value = await new PagesApi().page({ slug });
+    } catch (e) {
+      isLoading.value = false;
+      response.value = null;
+      error.value = e;
+    }
+  };
+
+  const { putContent, isEditable } = useFlyoContent();
+
   return {
-    page: page,
-    error: error,
+    isLoading,
+    response,
+    error,
+    fetch,
     putContent,
     isEditable
   }
 };
 
-const useFlyoSitemap = async () => {
+const useFlyoSitemap = () => {
+  const isLoading = ref(false);
+  const response = ref(null);
+  const error = ref(null);
 
-  const sitemap = ref(false);
-
-  try {
-    sitemap.value = await new SitemapApi().sitemap();
-  } catch (e) {
-    sitemap.value = false;
-  }
+  const fetch = async () => {
+    try {
+      error.value = null;
+      isLoading.value = true;
+      response.value = await new SitemapApi().sitemap();
+    } catch (e) {
+      isLoading.value = false;
+      sitemap.value = null;
+      error.value = e;
+    }
+  };
   
   return {
-    sitemap: sitemap
+    isLoading,
+    response,
+    error,
+    fetch
   }
 };
 
 const FlyoVue = {
 	install(Vue, options) {
-		Vue.provide('allowEdit', options.allowEdit);
+		// Initialize the flyo api
+		initFlyoApi(options);
 
+	 	// Setup flyo components
 		Vue.component(script$1.name, script$1);
 		Vue.component(script.name, script);
 
-		initFlyoApi(options);
+		// Setup pinia store
+		const pinia = createPinia();
+		Vue.use(pinia);
+
+		// Provide flyo object with configs and all endpoints.
+		// Make sure to pass pinia if the composable is a store.
+		Vue.provide('flyo', {
+			allowEdit: options.allowEdit,
+			config: useFlyoConfig(pinia),
+			content: useFlyoContent(),
+			entity: useFlyoEntity(),
+			page: useFlyoPage(),
+			sitemap: useFlyoSitemap()
+		});
 	}
 };
 

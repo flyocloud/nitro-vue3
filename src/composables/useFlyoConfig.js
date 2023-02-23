@@ -1,32 +1,29 @@
-import { reactive, toRefs } from 'vue'
+import { ref } from 'vue'
+import { defineStore } from 'pinia'
 import { ConfigApi } from '@flyodev/nitrocms-js'
 
-const state = reactive({
-  config: false,
-  loading: true
-})
+export const useFlyoConfig = defineStore('flyoConfig', () => {
+	const isLoading = ref(null)
+	const response = ref(null)
+  const error = ref(null)
 
-/**
- * @see https://stackoverflow.com/a/69208479/4611030
- * @see https://nuxt.com/docs/guide/directory-structure/composables
- * @see https://vuejs.org/guide/reusability/composables.html
- */
-export const useFlyoConfig = () => {
-
-  const fetchConfig = async () => {
-    try {
-      state.loading = true
-      state.config = await new ConfigApi().config()
-      state.loading = false
+	const fetch = async () => {
+		try {
+      error.value = null
+      isLoading.value = true
+      response.value = await new ConfigApi().config()
+      isLoading.value = false
     } catch (e) {
-      console.error(e)
+			isLoading.value = false
+			response.value = null
+      error.value = e
     }
+	}
 
-    return state.config
-  }
-  
   return {
-    ...toRefs(state),
-    fetchConfig
-  }
-}
+		response,
+		isLoading,
+    error,
+		fetch
+	}
+})
