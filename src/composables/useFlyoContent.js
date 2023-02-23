@@ -20,7 +20,7 @@ export const useFlyoContent = (pageId) => {
         uid: blockUid,
         authentication
       }
-      await await new ConfigApi().putContent(pageId, {content: payload})
+      await new ConfigApi().putContent(pageId, {content: payload})
     } catch (e) {
       console.error(e)
     }

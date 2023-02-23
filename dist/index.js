@@ -2,7 +2,7 @@ import { ApiClient, ConfigApi, EntitiesApi, PagesApi, SitemapApi } from '@flyode
 import { openBlock, createBlock, resolveDynamicComponent, resolveComponent, createElementBlock, renderSlot, normalizeProps, mergeProps, Fragment, renderList, createCommentVNode, reactive, toRefs, inject, ref } from 'vue';
 
 const initFlyoApi = ({ token, basePath, defaultHeaders }) => {
-	const defaultClient = ApiClient.instance;
+  const defaultClient = ApiClient.instance;
   defaultClient.defaultHeaders = defaultHeaders || {};
 
   // for development purposes change the base path to the api. must end with `.../nitro`
@@ -116,7 +116,7 @@ const useFlyoContent = (pageId) => {
         uid: blockUid,
         authentication
       };
-      await await new ConfigApi().putContent(pageId, {content: payload});
+      await new ConfigApi().putContent(pageId, {content: payload});
     } catch (e) {
       console.error(e);
     }
