@@ -2,7 +2,13 @@
   "name": "@flyodev/nitrocms-vue3",
   "version": "1.0.3",
   "description": "Vue3 Components for Nitro CMS",
-  "main": "dist/index.js",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js"
+    }
+  },
   "repository": "git@github.com:flyocloud/nitrocms-vue3.git",
   "author": "Basil Suter <git@nadar.io>",
   "license": "MIT",
@@ -24,6 +30,7 @@
     "rollup-plugin-vue": "^6.0.0"
   },
   "dependencies": {
-    "@flyodev/nitrocms-vue3": "^1.0.0"
+    "@flyodev/nitrocms-js": "^1.0",
+    "pinia": "^2.0.32"
   }
 }
