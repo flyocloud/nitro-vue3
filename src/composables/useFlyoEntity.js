@@ -1,12 +1,12 @@
 import { ref } from 'vue'
 import { EntitiesApi } from '@flyodev/nitrocms-js'
 
-export const useFlyoEntity = () => {
+export const useFlyoEntity = (uniqueid) => {
   const isLoading = ref(false)
   const response = ref(null)
   const error = ref(null)
 
-  const fetch = async (uniqueid) => {
+  const fetch = async () => {
     try {
       error.value = null
       isLoading.value = true

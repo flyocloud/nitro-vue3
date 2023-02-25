@@ -1,6 +1,6 @@
-import { defineStore, createPinia } from 'pinia';
-import { ApiClient, ConfigApi, EntitiesApi, PagesApi, SitemapApi } from '@flyodev/nitrocms-js';
-import { openBlock, createBlock, resolveDynamicComponent, resolveComponent, createElementBlock, renderSlot, normalizeProps, mergeProps, Fragment, renderList, createCommentVNode, ref, inject } from 'vue';
+import { storeToRefs, defineStore, createPinia } from 'pinia';
+import { ApiClient, PagesApi, ConfigApi, EntitiesApi, SitemapApi } from '@flyodev/nitrocms-js';
+import { openBlock, createBlock, resolveDynamicComponent, resolveComponent, createElementBlock, renderSlot, normalizeProps, mergeProps, Fragment, renderList, createCommentVNode, inject, ref } from 'vue';
 
 const initFlyoApi = ({ token, basePath, defaultHeaders }) => {
   const defaultClient = ApiClient.instance;
@@ -68,36 +68,19 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 script.render = render;
 script.__file = "src/components/Page.vue";
 
-const useFlyoConfig = defineStore('flyoConfig', () => {
-	const isLoading = ref(null);
-	const response = ref(null);
-  const error = ref(null);
-
-	const fetch = async () => {
-		try {
-      error.value = null;
-      isLoading.value = true;
-      response.value = await new ConfigApi().config();
-      isLoading.value = false;
-    } catch (e) {
-			isLoading.value = false;
-			response.value = null;
-      error.value = e;
-    }
-	};
+const useFlyoConfig = () => {
+	const { config } = inject('flyo');
 
   return {
-		response,
-		isLoading,
-    error,
-		fetch
+		...storeToRefs(config),
+		fetch: config.fetch
 	}
-});
+};
 
-const useFlyoContent = () => {
-  const isEditable = (pageId, authentication) => {
-    const { allowEdit } = inject('flyo');
+const useFlyoContent = (pageId, pageSlug) => {
+  const { allowEdit } = inject('flyo');
 
+  const isEditable = (authentication) => {
     if (authentication && allowEdit) {
       return true
     }
@@ -105,17 +88,22 @@ const useFlyoContent = () => {
     return false
   };
 
-  const putContent = async (pageId, blockUid, contentIdentifier, authentication, newValue) => {
+  const putContent = async (blockUid, contentIdentifier, authentication, newValue) => {
     try {
+      if (!pageId) {
+        const page = await new PagesApi().page({ slug: pageSlug });
+        pageId = page.id;
+      }
+
       const payload = {
         value: newValue,
         identifier: contentIdentifier,
         uid: blockUid,
         authentication
       };
-      await new ConfigApi().putContent(pageId, {content: payload});
+      return await new ConfigApi().putContent(pageId, {content: payload})
     } catch (e) {
-      console.error(e);
+      throw e
     }
   };
 
@@ -125,12 +113,12 @@ const useFlyoContent = () => {
   }
 };
 
-const useFlyoEntity = () => {
+const useFlyoEntity = (uniqueid) => {
   const isLoading = ref(false);
   const response = ref(null);
   const error = ref(null);
 
-  const fetch = async (uniqueid) => {
+  const fetch = async () => {
     try {
       error.value = null;
       isLoading.value = true;
@@ -150,12 +138,12 @@ const useFlyoEntity = () => {
   }
 };
 
-const useFlyoPage = () => {
+const useFlyoPage = (slug) => {
   const isLoading = ref(false);
   const response = ref(null);
   const error = ref(null);
 
-  const fetch = async (slug) => {
+  const fetch = async () => {
     try {
       error.value = null;
       isLoading.value = true;
@@ -167,7 +155,7 @@ const useFlyoPage = () => {
     }
   };
 
-  const { putContent, isEditable } = useFlyoContent();
+  const { putContent, isEditable } = useFlyoContent(null, slug);
 
   return {
     isLoading,
@@ -204,6 +192,32 @@ const useFlyoSitemap = () => {
   }
 };
 
+const useFlyoConfigStore = defineStore('flyoConfig', () => {
+	const isLoading = ref(null);
+	const response = ref(null);
+  const error = ref(null);
+
+	const fetch = async (force) => {
+		try {
+      error.value = null;
+      isLoading.value = true;
+      response.value = await new ConfigApi().config();
+      isLoading.value = false;
+    } catch (e) {
+			isLoading.value = false;
+			response.value = null;
+      error.value = e;
+    }
+	};
+
+  return {
+		response,
+		isLoading,
+    error,
+		fetch
+	}
+});
+
 const FlyoVue = {
 	install(Vue, options) {
 		// Initialize the flyo api
@@ -213,21 +227,29 @@ const FlyoVue = {
 		Vue.component(script$1.name, script$1);
 		Vue.component(script.name, script);
 
+		// Setup edit directive
+		Vue.directive('edit', {
+			beforeMount(el) {
+				el.setAttribute("contenteditable", true);
+				el.addEventListener('onChange', () => {
+					console.log(el.originalValue);
+				});
+			},
+			mounted(el) {
+				el.originalValue = el.innerHtml;
+			}
+		});
+
 		// Setup pinia store
 		const pinia = createPinia();
 		Vue.use(pinia);
 
-		// Provide flyo object with configs and all endpoints.
-		// Make sure to pass pinia if the composable is a store.
+		// Provide flyo object with global / persistent data (pinia stores)
 		Vue.provide('flyo', {
 			allowEdit: options.allowEdit,
-			config: useFlyoConfig(pinia),
-			content: useFlyoContent(),
-			entity: useFlyoEntity(),
-			page: useFlyoPage(),
-			sitemap: useFlyoSitemap()
+			config: useFlyoConfigStore(pinia)
 		});
 	}
 };
 
-export { script$1 as Block, FlyoVue, script as Page, FlyoVue as default, useFlyoConfig, useFlyoContent, useFlyoEntity, useFlyoPage, useFlyoSitemap };
+export { script$1 as Block, FlyoVue, script as Page, FlyoVue as default, useFlyoConfig, useFlyoConfigStore, useFlyoContent, useFlyoEntity, useFlyoPage, useFlyoSitemap };

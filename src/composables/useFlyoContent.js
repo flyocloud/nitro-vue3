@@ -1,10 +1,10 @@
 import { inject } from 'vue'
-import { ConfigApi } from '@flyodev/nitrocms-js'
+import { ConfigApi, PagesApi } from '@flyodev/nitrocms-js'
 
-export const useFlyoContent = () => {
-  const isEditable = (pageId, authentication) => {
-    const { allowEdit } = inject('flyo')
+export const useFlyoContent = (pageId, pageSlug) => {
+  const { allowEdit } = inject('flyo')
 
+  const isEditable = (authentication) => {
     if (authentication && allowEdit) {
       return true
     }
@@ -12,17 +12,22 @@ export const useFlyoContent = () => {
     return false
   }
 
-  const putContent = async (pageId, blockUid, contentIdentifier, authentication, newValue) => {
+  const putContent = async (blockUid, contentIdentifier, authentication, newValue) => {
     try {
+      if (!pageId) {
+        const page = await new PagesApi().page({ slug: pageSlug })
+        pageId = page.id
+      }
+
       const payload = {
         value: newValue,
         identifier: contentIdentifier,
         uid: blockUid,
         authentication
       }
-      await new ConfigApi().putContent(pageId, {content: payload})
+      return await new ConfigApi().putContent(pageId, {content: payload})
     } catch (e) {
-      console.error(e)
+      throw e
     }
   }
 
