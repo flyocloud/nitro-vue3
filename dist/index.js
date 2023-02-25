@@ -1,6 +1,6 @@
-import { storeToRefs, defineStore, createPinia } from 'pinia';
-import { ApiClient, PagesApi, ConfigApi, EntitiesApi, SitemapApi } from '@flyodev/nitrocms-js';
-import { openBlock, createBlock, resolveDynamicComponent, resolveComponent, createElementBlock, renderSlot, normalizeProps, mergeProps, Fragment, renderList, createCommentVNode, inject, ref } from 'vue';
+import { defineStore, storeToRefs, createPinia } from 'pinia';
+import { ApiClient, ConfigApi, PagesApi, EntitiesApi, SitemapApi } from '@flyodev/nitrocms-js';
+import { openBlock, createBlock, resolveDynamicComponent, resolveComponent, createElementBlock, renderSlot, normalizeProps, mergeProps, Fragment, renderList, createCommentVNode, ref, inject } from 'vue';
 
 const initFlyoApi = ({ token, basePath, defaultHeaders }) => {
   const defaultClient = ApiClient.instance;
@@ -67,6 +67,32 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 script.render = render;
 script.__file = "src/components/Page.vue";
+
+const useFlyoConfigStore = defineStore('flyoConfig', () => {
+	const isLoading = ref(null);
+	const response = ref(null);
+  const error = ref(null);
+
+	const fetch = async (force) => {
+		try {
+      error.value = null;
+      isLoading.value = true;
+      response.value = await new ConfigApi().config();
+      isLoading.value = false;
+    } catch (e) {
+			isLoading.value = false;
+			response.value = null;
+      error.value = e;
+    }
+	};
+
+  return {
+		response,
+		isLoading,
+    error,
+		fetch
+	}
+});
 
 const useFlyoConfig = () => {
 	const { config } = inject('flyo');
@@ -192,32 +218,6 @@ const useFlyoSitemap = () => {
   }
 };
 
-const useFlyoConfigStore = defineStore('flyoConfig', () => {
-	const isLoading = ref(null);
-	const response = ref(null);
-  const error = ref(null);
-
-	const fetch = async (force) => {
-		try {
-      error.value = null;
-      isLoading.value = true;
-      response.value = await new ConfigApi().config();
-      isLoading.value = false;
-    } catch (e) {
-			isLoading.value = false;
-			response.value = null;
-      error.value = e;
-    }
-	};
-
-  return {
-		response,
-		isLoading,
-    error,
-		fetch
-	}
-});
-
 const FlyoVue = {
 	install(Vue, options) {
 		// Initialize the flyo api
@@ -227,18 +227,19 @@ const FlyoVue = {
 		Vue.component(script$1.name, script$1);
 		Vue.component(script.name, script);
 
+		/* WIP
 		// Setup edit directive
 		Vue.directive('edit', {
 			beforeMount(el) {
-				el.setAttribute("contenteditable", true);
+				el.setAttribute("contenteditable", true
 				el.addEventListener('onChange', () => {
-					console.log(el.originalValue);
-				});
+					console.log(el.originalValue)
+				})
 			},
 			mounted(el) {
-				el.originalValue = el.innerHtml;
+				el.originalValue = el.innerHtml
 			}
-		});
+		})*/
 
 		// Setup pinia store
 		const pinia = createPinia();
