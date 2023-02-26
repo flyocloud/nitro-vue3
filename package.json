@@ -1,6 +1,6 @@
 {
   "name": "@flyodev/nitrocms-vue3",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Vue3 Components for Nitro CMS",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -30,7 +30,6 @@
     "rollup-plugin-vue": "^6.0.0"
   },
   "dependencies": {
-    "@flyodev/nitrocms-js": "^1.0",
-    "pinia": "^2.0.32"
+    "@flyodev/nitrocms-js": "^1.0"
   }
 }
