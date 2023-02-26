@@ -1,29 +1,28 @@
-import { ref } from 'vue'
-import { defineStore } from 'pinia'
+import { reactive, toRefs } from 'vue'
 import { ConfigApi } from '@flyodev/nitrocms-js'
 
-export const useFlyoConfigStore = defineStore('flyoConfig', () => {
-	const isLoading = ref(null)
-	const response = ref(null)
-  const error = ref(null)
+const flyoConfigState = reactive({
+	isLoading: null,
+	response: null,
+	error: null
+})
 
-	const fetch = async (force) => {
+export const useFlyoConfigStore = () => {
+	const fetch = async () => {
 		try {
-      error.value = null
-      isLoading.value = true
-      response.value = await new ConfigApi().config()
-      isLoading.value = false
+      flyoConfigState.error = null
+      flyoConfigState.isLoading = true
+      flyoConfigState.response = await new ConfigApi().config()
+      flyoConfigState.isLoading = false
     } catch (e) {
-			isLoading.value = false
-			response.value = null
-      error.value = e
+			flyoConfigState.isLoading = false
+			flyoConfigState.response = null
+      flyoConfigState.error = e
     }
 	}
 
   return {
-		response,
-		isLoading,
-    error,
+		...toRefs(flyoConfigState),
 		fetch
 	}
-})
+}

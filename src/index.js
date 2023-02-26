@@ -1,4 +1,3 @@
-import { createPinia } from 'pinia'
 import initFlyoApi from './helpers/api'
 import Block from './components/Block.vue'
 import Page from './components/Page.vue'
@@ -27,14 +26,10 @@ const FlyoVue = {
 			}
 		})*/
 
-		// Setup pinia store
-		const pinia = createPinia()
-		Vue.use(pinia)
-
-		// Provide flyo object with global / persistent data (pinia stores)
+		// Provide flyo object with global / persistent data
 		Vue.provide('flyo', {
 			allowEdit: options.allowEdit,
-			config: useFlyoConfigStore(pinia)
+			config: useFlyoConfigStore()
 		})
 	}
 }

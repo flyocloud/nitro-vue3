@@ -1,6 +1,5 @@
-import { defineStore, storeToRefs, createPinia } from 'pinia';
 import { ApiClient, ConfigApi, PagesApi, EntitiesApi, SitemapApi } from '@flyodev/nitrocms-js';
-import { openBlock, createBlock, resolveDynamicComponent, resolveComponent, createElementBlock, renderSlot, normalizeProps, mergeProps, Fragment, renderList, createCommentVNode, ref, inject } from 'vue';
+import { openBlock, createBlock, resolveDynamicComponent, resolveComponent, createElementBlock, renderSlot, normalizeProps, mergeProps, Fragment, renderList, createCommentVNode, reactive, toRefs, inject, ref } from 'vue';
 
 const initFlyoApi = ({ token, basePath, defaultHeaders }) => {
   const defaultClient = ApiClient.instance;
@@ -68,37 +67,37 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 script.render = render;
 script.__file = "src/components/Page.vue";
 
-const useFlyoConfigStore = defineStore('flyoConfig', () => {
-	const isLoading = ref(null);
-	const response = ref(null);
-  const error = ref(null);
+const flyoConfigState = reactive({
+	isLoading: null,
+	response: null,
+	error: null
+});
 
-	const fetch = async (force) => {
+const useFlyoConfigStore = () => {
+	const fetch = async () => {
 		try {
-      error.value = null;
-      isLoading.value = true;
-      response.value = await new ConfigApi().config();
-      isLoading.value = false;
+      flyoConfigState.error = null;
+      flyoConfigState.isLoading = true;
+      flyoConfigState.response = await new ConfigApi().config();
+      flyoConfigState.isLoading = false;
     } catch (e) {
-			isLoading.value = false;
-			response.value = null;
-      error.value = e;
+			flyoConfigState.isLoading = false;
+			flyoConfigState.response = null;
+      flyoConfigState.error = e;
     }
 	};
 
   return {
-		response,
-		isLoading,
-    error,
+		...toRefs(flyoConfigState),
 		fetch
 	}
-});
+};
 
 const useFlyoConfig = () => {
 	const { config } = inject('flyo');
 
   return {
-		...storeToRefs(config),
+		...config,
 		fetch: config.fetch
 	}
 };
@@ -241,14 +240,10 @@ const FlyoVue = {
 			}
 		})*/
 
-		// Setup pinia store
-		const pinia = createPinia();
-		Vue.use(pinia);
-
-		// Provide flyo object with global / persistent data (pinia stores)
+		// Provide flyo object with global / persistent data
 		Vue.provide('flyo', {
 			allowEdit: options.allowEdit,
-			config: useFlyoConfigStore(pinia)
+			config: useFlyoConfigStore()
 		});
 	}
 };
