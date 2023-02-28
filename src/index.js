@@ -1,7 +1,6 @@
 import initFlyoApi from './helpers/api'
 import Block from './components/Block.vue'
 import Page from './components/Page.vue'
-import { useFlyoConfigStore } from './stores/flyoConfig'
 
 const FlyoVue = {
 	install(Vue, options) {
@@ -28,13 +27,11 @@ const FlyoVue = {
 
 		// Provide flyo object with global / persistent data
 		Vue.provide('flyo', {
-			allowEdit: options.allowEdit,
-			config: useFlyoConfigStore()
+			allowEdit: options.allowEdit
 		})
 	}
 }
 
 export default FlyoVue
 export { FlyoVue, Block, Page }
-export * from './stores/flyoConfig'
 export * from './composables/index'

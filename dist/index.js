@@ -73,7 +73,7 @@ const flyoConfigState = reactive({
 	error: null
 });
 
-const useFlyoConfigStore = () => {
+const useFlyoConfig = () => {
 	const fetch = async () => {
 		try {
       flyoConfigState.error = null;
@@ -90,15 +90,6 @@ const useFlyoConfigStore = () => {
   return {
 		...toRefs(flyoConfigState),
 		fetch
-	}
-};
-
-const useFlyoConfig = () => {
-	const { config } = inject('flyo');
-
-  return {
-		...config,
-		fetch: config.fetch
 	}
 };
 
@@ -242,10 +233,9 @@ const FlyoVue = {
 
 		// Provide flyo object with global / persistent data
 		Vue.provide('flyo', {
-			allowEdit: options.allowEdit,
-			config: useFlyoConfigStore()
+			allowEdit: options.allowEdit
 		});
 	}
 };
 
-export { script$1 as Block, FlyoVue, script as Page, FlyoVue as default, useFlyoConfig, useFlyoConfigStore, useFlyoContent, useFlyoEntity, useFlyoPage, useFlyoSitemap };
+export { script$1 as Block, FlyoVue, script as Page, FlyoVue as default, useFlyoConfig, useFlyoContent, useFlyoEntity, useFlyoPage, useFlyoSitemap };
