@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { ref, unref } from 'vue'
 import { SitemapApi } from '@flyodev/nitrocms-js'
 
 export const useFlyoSitemap = () => {
@@ -10,12 +10,17 @@ export const useFlyoSitemap = () => {
     try {
       error.value = null
       isLoading.value = true
-      response.value = await new SitemapApi().sitemap()
+      response.value = JSON.parse(JSON.stringify(await new SitemapApi().sitemap()))
     } catch (e) {
       isLoading.value = false
       sitemap.value = null
       error.value = e
     }
+
+		return {
+			response: unref(response),
+			error: unref(error)
+		}
   }
   
   return {

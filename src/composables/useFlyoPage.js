@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { ref, unref } from 'vue'
 import { PagesApi } from '@flyodev/nitrocms-js'
 import { useFlyoContent } from './useFlyoContent'
 
@@ -11,15 +11,20 @@ export const useFlyoPage = (slug) => {
     try {
       error.value = null
       isLoading.value = true
-      response.value = await new PagesApi().page({ slug })
+      response.value = JSON.parse(JSON.stringify(await new PagesApi().page({ slug })))
     } catch (e) {
       isLoading.value = false
       response.value = null
       error.value = e
     }
+
+		return {
+			response: unref(response),
+			error: unref(error)
+		}
   }
 
-  const { putContent, isEditable } = useFlyoContent(null, slug)
+	const { putContent, isEditable } = useFlyoContent(null, slug)
 
   return {
     isLoading,

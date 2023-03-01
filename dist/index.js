@@ -1,5 +1,5 @@
 import { ApiClient, ConfigApi, PagesApi, EntitiesApi, SitemapApi } from '@flyodev/nitrocms-js';
-import { openBlock, createBlock, resolveDynamicComponent, resolveComponent, createElementBlock, renderSlot, normalizeProps, mergeProps, Fragment, renderList, createCommentVNode, reactive, toRefs, inject, ref } from 'vue';
+import { openBlock, createBlock, resolveDynamicComponent, resolveComponent, createElementBlock, renderSlot, normalizeProps, mergeProps, Fragment, renderList, createCommentVNode, reactive, toRefs, inject, ref, unref } from 'vue';
 
 const initFlyoApi = ({ token, basePath, defaultHeaders }) => {
   const defaultClient = ApiClient.instance;
@@ -78,13 +78,18 @@ const useFlyoConfig = () => {
 		try {
       flyoConfigState.error = null;
       flyoConfigState.isLoading = true;
-      flyoConfigState.response = await new ConfigApi().config();
+      flyoConfigState.response = JSON.parse(JSON.stringify(await new ConfigApi().config()));
       flyoConfigState.isLoading = false;
     } catch (e) {
 			flyoConfigState.isLoading = false;
 			flyoConfigState.response = null;
       flyoConfigState.error = e;
     }
+
+		return {
+			response: flyoConfigState.response,
+			error: flyoConfigState.error
+		}
 	};
 
   return {
@@ -138,12 +143,17 @@ const useFlyoEntity = (uniqueid) => {
     try {
       error.value = null;
       isLoading.value = true;
-      response.value = await new EntitiesApi().entity(uniqueid);
+      response.value = JSON.parse(JSON.stringify(await new EntitiesApi().entity(uniqueid)));
     } catch (e) {
       isLoading.value = false;
       response.value = null;
       error.value = e;
     }
+
+		return {
+			response: unref(response),
+			error: unref(error)
+		}
   };
 
   return {
@@ -163,15 +173,20 @@ const useFlyoPage = (slug) => {
     try {
       error.value = null;
       isLoading.value = true;
-      response.value = await new PagesApi().page({ slug });
+      response.value = JSON.parse(JSON.stringify(await new PagesApi().page({ slug })));
     } catch (e) {
       isLoading.value = false;
       response.value = null;
       error.value = e;
     }
+
+		return {
+			response: unref(response),
+			error: unref(error)
+		}
   };
 
-  const { putContent, isEditable } = useFlyoContent(null, slug);
+	const { putContent, isEditable } = useFlyoContent(null, slug);
 
   return {
     isLoading,
@@ -192,12 +207,17 @@ const useFlyoSitemap = () => {
     try {
       error.value = null;
       isLoading.value = true;
-      response.value = await new SitemapApi().sitemap();
+      response.value = JSON.parse(JSON.stringify(await new SitemapApi().sitemap()));
     } catch (e) {
       isLoading.value = false;
       sitemap.value = null;
       error.value = e;
     }
+
+		return {
+			response: unref(response),
+			error: unref(error)
+		}
   };
   
   return {

@@ -12,13 +12,18 @@ export const useFlyoConfig = () => {
 		try {
       flyoConfigState.error = null
       flyoConfigState.isLoading = true
-      flyoConfigState.response = await new ConfigApi().config()
+      flyoConfigState.response = JSON.parse(JSON.stringify(await new ConfigApi().config()))
       flyoConfigState.isLoading = false
     } catch (e) {
 			flyoConfigState.isLoading = false
 			flyoConfigState.response = null
       flyoConfigState.error = e
     }
+
+		return {
+			response: flyoConfigState.response,
+			error: flyoConfigState.error
+		}
 	}
 
   return {

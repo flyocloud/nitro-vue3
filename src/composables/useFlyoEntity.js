@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { ref, unref } from 'vue'
 import { EntitiesApi } from '@flyodev/nitrocms-js'
 
 export const useFlyoEntity = (uniqueid) => {
@@ -10,12 +10,17 @@ export const useFlyoEntity = (uniqueid) => {
     try {
       error.value = null
       isLoading.value = true
-      response.value = await new EntitiesApi().entity(uniqueid)
+      response.value = JSON.parse(JSON.stringify(await new EntitiesApi().entity(uniqueid)))
     } catch (e) {
       isLoading.value = false
       response.value = null
       error.value = e
     }
+
+		return {
+			response: unref(response),
+			error: unref(error)
+		}
   }
 
   return {
