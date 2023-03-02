@@ -40,7 +40,7 @@ const openFlyoEdit = (item) => {
 }
 
 if (process.client && parentWindow(window)) {
-  parentWindow(window).addEventListener("message", (event) => {
+  window.addEventListener("message", (event) => {
     // Do we trust the sender of this message?  (might be
     // different from what we originally opened, for example).
     if (event.origin !== liveEditOrigin) {
