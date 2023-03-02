@@ -15,56 +15,98 @@ const initFlyoApi = ({ token, basePath, defaultHeaders }) => {
   ApiKeyAuth.apiKey = token;
 };
 
-var script$1 = {
-  name: 'FlyoBlock',
-  props: {
-    item: {
-      type: Object,
-      default: () => {}
-    }
-  }
-};
+const __default__$1 = {
+		name: 'FlyoBlock'
+	};
 
-function render$1(_ctx, _cache, $props, $setup, $data, $options) {
-  return (openBlock(), createBlock(resolveDynamicComponent($props.item.component), {
-    config: $props.item.config,
-    content: $props.item.content,
-    items: $props.item.items,
-    slots: $props.item.slots
+
+var script$1 = /*#__PURE__*/Object.assign(__default__$1, {
+  props: {
+		item:  {
+			type: Object,
+			default: () => {}
+		}
+	},
+  setup(__props) {
+
+	
+
+return (_ctx, _cache) => {
+  return (openBlock(), createBlock(resolveDynamicComponent(__props.item.component), {
+    config: __props.item.config,
+    content: __props.item.content,
+    items: __props.item.items,
+    slots: __props.item.slots
   }, null, 8 /* PROPS */, ["config", "content", "items", "slots"]))
 }
+}
 
-script$1.render = render$1;
+});
+
 script$1.__file = "src/components/Block.vue";
 
-var script = {
-  name: 'FlyoPage',
-  props: {
-    page: {
-      type: Object,
-      default: false
-    }
-  },
-};
+const __default__ = {
+		name: 'FlyoPage'
+	};
 
-function render(_ctx, _cache, $props, $setup, $data, $options) {
+
+var script = /*#__PURE__*/Object.assign(__default__, {
+  props: {
+		page:  {
+			type: [Object, Boolean],
+			default: false
+		}
+	},
+  setup(__props) {
+
+const props = __props;
+
+	
+
+	const openFlyoEdit = (item) => {
+		if (process.client) {
+			window.postMessage({
+				action: 'open-edit',
+				data: JSON.parse(JSON.stringify({
+					page: props.page,
+					item: item
+				}))
+			});
+		}
+	};
+
+	if (process.client) {
+		window.addEventListener("message", (event) => {
+			// Do we trust the sender of this message?  (might be
+			// different from what we originally opened, for example).
+			// if (event.origin !== "http://example.com")
+			// 	return;
+			console.log({ event });
+		});
+	}
+
+return (_ctx, _cache) => {
   const _component_FlyoBlock = resolveComponent("FlyoBlock");
 
   return (openBlock(), createElementBlock("div", null, [
-    ($props.page)
-      ? renderSlot(_ctx.$slots, "default", normalizeProps(mergeProps({ key: 0 }, $props.page)), () => [
-          (openBlock(true), createElementBlock(Fragment, null, renderList($props.page.json, (item) => {
+    (__props.page)
+      ? renderSlot(_ctx.$slots, "default", normalizeProps(mergeProps({ key: 0 }, __props.page)), () => [
+          (openBlock(true), createElementBlock(Fragment, null, renderList(__props.page.json, (item) => {
             return (openBlock(), createBlock(_component_FlyoBlock, {
               key: item.uid,
-              item: item
-            }, null, 8 /* PROPS */, ["item"]))
+              item: item,
+              class: "test",
+              onClick: () => openFlyoEdit(item)
+            }, null, 8 /* PROPS */, ["item", "onClick"]))
           }), 128 /* KEYED_FRAGMENT */))
         ])
       : createCommentVNode("v-if", true)
   ]))
 }
+}
 
-script.render = render;
+});
+
 script.__file = "src/components/Page.vue";
 
 const flyoConfigState = reactive({

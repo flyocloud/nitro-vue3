@@ -8,14 +8,17 @@
   />
 </template>
 
+<script setup>
+	const props = defineProps({
+		item:  {
+			type: Object,
+			default: () => {}
+		}
+	})
+</script>
+
 <script>
-export default {
-  name: 'FlyoBlock',
-  props: {
-    item: {
-      type: Object,
-      default: () => {}
-    }
-  }
-}
+	export default {
+		name: 'FlyoBlock'
+	}
 </script>
