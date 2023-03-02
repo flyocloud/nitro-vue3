@@ -1,5 +1,5 @@
 import { ApiClient, ConfigApi, PagesApi, EntitiesApi, SitemapApi } from '@flyodev/nitrocms-js';
-import { openBlock, createBlock, resolveDynamicComponent, resolveComponent, createElementBlock, renderSlot, normalizeProps, mergeProps, Fragment, renderList, createCommentVNode, reactive, toRefs, inject, ref, unref } from 'vue';
+import { openBlock, createBlock, resolveDynamicComponent, inject, resolveComponent, createElementBlock, renderSlot, normalizeProps, mergeProps, Fragment, renderList, createCommentVNode, reactive, toRefs, ref, unref } from 'vue';
 
 const initFlyoApi = ({ token, basePath, defaultHeaders }) => {
   const defaultClient = ApiClient.instance;
@@ -16,20 +16,20 @@ const initFlyoApi = ({ token, basePath, defaultHeaders }) => {
 };
 
 const __default__$1 = {
-		name: 'FlyoBlock'
-	};
+  name: 'FlyoBlock'
+};
 
 
 var script$1 = /*#__PURE__*/Object.assign(__default__$1, {
   props: {
-		item:  {
-			type: Object,
-			default: () => {}
-		}
-	},
+  item: {
+    type: Object,
+    default: () => { }
+  }
+},
   setup(__props) {
 
-	
+
 
 return (_ctx, _cache) => {
   return (openBlock(), createBlock(resolveDynamicComponent(__props.item.component), {
@@ -46,44 +46,58 @@ return (_ctx, _cache) => {
 script$1.__file = "src/components/Block.vue";
 
 const __default__ = {
-		name: 'FlyoPage'
-	};
+  name: 'FlyoPage'
+};
 
 
 var script = /*#__PURE__*/Object.assign(__default__, {
   props: {
-		page:  {
-			type: [Object, Boolean],
-			default: false
-		}
-	},
+  page: {
+    type: [Object, Boolean],
+    default: false
+  }
+},
   setup(__props) {
 
 const props = __props;
 
-	
 
-	const openFlyoEdit = (item) => {
-		if (process.client) {
-			window.postMessage({
-				action: 'open-edit',
-				data: JSON.parse(JSON.stringify({
-					page: props.page,
-					item: item
-				}))
-			});
-		}
-	};
 
-	if (process.client) {
-		window.addEventListener("message", (event) => {
-			// Do we trust the sender of this message?  (might be
-			// different from what we originally opened, for example).
-			// if (event.origin !== "http://example.com")
-			// 	return;
-			console.log({ event });
-		});
-	}
+const { liveEditOrigin } = inject('flyo');
+
+const parentWindow = window => {
+  const parentWindow = window.parent || window.opener;
+  if (window.self === parentWindow) {
+    return false
+  }
+
+  return window.parent || window.opener;
+};
+
+const openFlyoEdit = (item) => {
+  if (process.client && parentWindow(window)) {
+    parentWindow(window).postMessage({
+      action: 'openEdit',
+      data: JSON.parse(JSON.stringify({
+        page: props.page,
+        item: item
+      }))
+    }, liveEditOrigin);
+  }
+};
+
+if (process.client && parentWindow(window)) {
+  parentWindow(window).addEventListener("message", (event) => {
+    // Do we trust the sender of this message?  (might be
+    // different from what we originally opened, for example).
+    if (event.origin !== liveEditOrigin) {
+      console.log(`Message from ${event.origin} blocked. Expected ${liveEditOrigin}.`);
+     	return
+    }
+
+    console.log({ event });
+  });
+}
 
 return (_ctx, _cache) => {
   const _component_FlyoBlock = resolveComponent("FlyoBlock");
@@ -95,7 +109,6 @@ return (_ctx, _cache) => {
             return (openBlock(), createBlock(_component_FlyoBlock, {
               key: item.uid,
               item: item,
-              class: "test",
               onClick: () => openFlyoEdit(item)
             }, null, 8 /* PROPS */, ["item", "onClick"]))
           }), 128 /* KEYED_FRAGMENT */))
@@ -295,7 +308,8 @@ const FlyoVue = {
 
 		// Provide flyo object with global / persistent data
 		Vue.provide('flyo', {
-			allowEdit: options.allowEdit
+			allowEdit: options.allowEdit,
+      liveEditOrigin: options.liveEditOrigin
 		});
 	}
 };
