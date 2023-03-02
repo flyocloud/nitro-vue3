@@ -17,7 +17,7 @@ export const useFlyoConfig = () => {
     } catch (e) {
 			flyoConfigState.isLoading = false
 			flyoConfigState.response = null
-      flyoConfigState.error = e
+      flyoConfigState.error = JSON.parse(JSON.stringify(e))
     }
 
 		return {

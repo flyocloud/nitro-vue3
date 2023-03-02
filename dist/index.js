@@ -1,18 +1,16 @@
 import { ApiClient, ConfigApi, PagesApi, EntitiesApi, SitemapApi } from '@flyodev/nitrocms-js';
 import { openBlock, createBlock, resolveDynamicComponent, inject, resolveComponent, createElementBlock, renderSlot, normalizeProps, mergeProps, Fragment, renderList, createCommentVNode, reactive, toRefs, ref, unref } from 'vue';
 
-const initFlyoApi = ({ token, basePath, defaultHeaders }) => {
+const initFlyoApi = ({ apiToken, apiBasePath, defaultHeaders }) => {
   const defaultClient = ApiClient.instance;
   defaultClient.defaultHeaders = defaultHeaders || {};
 
-  // for development purposes change the base path to the api. must end with `.../nitro`
-	// 'http://flyoapi-web-api.dev.heartbeat.gmbh:7171/nitro'
-	if (basePath) {
-		defaultClient.basePath = basePath;
+	if (apiBasePath) {
+		defaultClient.basePath = apiBasePath;
 	}
 
   const ApiKeyAuth = defaultClient.authentications["ApiKeyAuth"];
-  ApiKeyAuth.apiKey = token;
+  ApiKeyAuth.apiKey = apiToken;
 };
 
 const __default__$1 = {
@@ -138,7 +136,7 @@ const useFlyoConfig = () => {
     } catch (e) {
 			flyoConfigState.isLoading = false;
 			flyoConfigState.response = null;
-      flyoConfigState.error = e;
+      flyoConfigState.error = JSON.parse(JSON.stringify(e));
     }
 
 		return {
@@ -202,7 +200,7 @@ const useFlyoEntity = (uniqueid) => {
     } catch (e) {
       isLoading.value = false;
       response.value = null;
-      error.value = e;
+      error.value = JSON.parse(JSON.stringify(e));
     }
 
 		return {
@@ -232,7 +230,7 @@ const useFlyoPage = (slug) => {
     } catch (e) {
       isLoading.value = false;
       response.value = null;
-      error.value = e;
+      error.value = JSON.parse(JSON.stringify(e));
     }
 
 		return {
@@ -266,7 +264,7 @@ const useFlyoSitemap = () => {
     } catch (e) {
       isLoading.value = false;
       sitemap.value = null;
-      error.value = e;
+      error.value = JSON.parse(JSON.stringify(e));
     }
 
 		return {

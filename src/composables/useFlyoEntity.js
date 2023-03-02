@@ -14,7 +14,7 @@ export const useFlyoEntity = (uniqueid) => {
     } catch (e) {
       isLoading.value = false
       response.value = null
-      error.value = e
+      error.value = JSON.parse(JSON.stringify(e))
     }
 
 		return {

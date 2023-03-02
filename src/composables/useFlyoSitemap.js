@@ -14,7 +14,7 @@ export const useFlyoSitemap = () => {
     } catch (e) {
       isLoading.value = false
       sitemap.value = null
-      error.value = e
+      error.value = JSON.parse(JSON.stringify(e))
     }
 
 		return {
