@@ -16,7 +16,7 @@ const props = defineProps({
   }
 })
 
-const { liveEditOrigin } = inject('flyo')
+const { allowEdit, liveEditOrigin } = inject('flyo')
 
 const parentWindow = window => {
   const parentWindow = window.parent || window.opener
@@ -28,6 +28,10 @@ const parentWindow = window => {
 }
 
 const openFlyoEdit = (item) => {
+  if (!allowEdit) {
+    return
+  }
+
   if (process.client && parentWindow(window)) {
     parentWindow(window).postMessage({
       action: 'openEdit',
@@ -41,15 +45,21 @@ const openFlyoEdit = (item) => {
 
 if (process.client && parentWindow(window)) {
   window.addEventListener("message", (event) => {
-    // Do we trust the sender of this message?  (might be
-    // different from what we originally opened, for example).
     if (event.origin !== liveEditOrigin) {
       console.log(`Message from ${event.origin} blocked. Expected ${liveEditOrigin}.`)
-     	return
+      return
     }
 
-    console.log({ event })
-  });
+    const message = event.data
+    if (message.action === 'contentRefresh') {
+      const data = message.data
+      const itemIndex = props.page.json.findIndex(item => item.uid === data.uid)
+      props.page.json[itemIndex] = {
+        ...props.page.json[itemIndex],
+        ...data
+      }
+    }
+  })
 }
 </script>
 
