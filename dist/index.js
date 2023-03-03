@@ -317,7 +317,7 @@ const FlyoVue = {
 		// Provide flyo object with global / persistent data
 		Vue.provide('flyo', {
 			allowEdit: options.allowEdit,
-      liveEditOrigin: options.liveEditOrigin
+      		liveEditOrigin: options.liveEditOrigin
 		});
 	}
 };

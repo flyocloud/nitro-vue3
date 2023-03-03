@@ -24,9 +24,9 @@
   integrity sha512-URpaIJQwEkEC2T9Kn+Ai6Xe/02iNaVCuT/PtoRz3GPVJVDpPd7mLo+VddTbhCRU9TXqW5mSrQfXZyi8kDKOVpQ==
 
 "@flyodev/nitrocms-js@^1.0":
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/@flyodev/nitrocms-js/-/nitrocms-js-1.0.4.tgz#84e18f8ca5ffd68ec4198c0189b3d123874e04a6"
-  integrity sha512-iSXtL2+3jBxCk8yK0c9rpqkAUHpSBKxjDGG1/XRMamPod+oq2lxZ2dsXDeQGirx31ARRcqEu5lLSowAFh+9xJA==
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/@flyodev/nitrocms-js/-/nitrocms-js-1.0.7.tgz#ff02cc4b9f5ae85a0d8214f5658d5311ec1950fe"
+  integrity sha512-SHtXR5XloiM9SL+NbXWH1VMvdXa/VxPE4dRcI/jfS3GkqM+NPLNLCwbJoz3AlcCmwvarFasawFcXPc+a6qAgQQ==
   dependencies:
     "@babel/cli" "^7.0.0"
     superagent "^5.3.0"
@@ -507,9 +507,9 @@ rollup-pluginutils@^2.8.2:
     estree-walker "^0.6.1"
 
 rollup@^3.15.0:
-  version "3.17.3"
-  resolved "https://registry.yarnpkg.com/rollup/-/rollup-3.17.3.tgz#ee7c4e1a262da55c491a4788b632fa123315f6ef"
-  integrity sha512-p5LaCXiiOL/wrOkj8djsIDFmyU9ysUxcyW+EKRLHb6TKldJzXpImjcRSR+vgo09DBdofGcOoLOsRyxxG2n5/qQ==
+  version "3.18.0"
+  resolved "https://registry.yarnpkg.com/rollup/-/rollup-3.18.0.tgz#2354ba63ba66d6a09c652c3ea0dbcd9dad72bbde"
+  integrity sha512-J8C6VfEBjkvYPESMQYxKHxNOh4A5a3FlP+0BETGo34HEcE4eTlgCrO2+eWzlu2a/sHs2QUkZco+wscH7jhhgWg==
   optionalDependencies:
     fsevents "~2.3.2"
 
