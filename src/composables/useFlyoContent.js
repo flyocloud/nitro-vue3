@@ -2,10 +2,10 @@ import { inject } from 'vue'
 import { ConfigApi, PagesApi } from '@flyodev/nitrocms-js'
 
 export const useFlyoContent = (pageId, pageSlug) => {
-  const { allowEdit } = inject('flyo')
+  const { liveEdit } = inject('flyo')
 
   const isEditable = (authentication) => {
-    if (authentication && allowEdit) {
+    if (authentication && liveEdit) {
       return true
     }
 

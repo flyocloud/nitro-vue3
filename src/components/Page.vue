@@ -16,7 +16,7 @@ const props = defineProps({
   }
 })
 
-const { allowEdit, liveEditOrigin } = inject('flyo')
+const { liveEdit, liveEditOrigin } = inject('flyo')
 
 const parentWindow = window => {
   const parentWindow = window.parent || window.opener
@@ -28,7 +28,7 @@ const parentWindow = window => {
 }
 
 const openFlyoEdit = (item) => {
-  if (!allowEdit) {
+  if (!liveEdit) {
     return
   }
 

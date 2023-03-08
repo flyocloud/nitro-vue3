@@ -61,7 +61,7 @@ const props = __props;
 
 
 
-const { allowEdit, liveEditOrigin } = inject('flyo');
+const { liveEdit, liveEditOrigin } = inject('flyo');
 
 const parentWindow = window => {
   const parentWindow = window.parent || window.opener;
@@ -73,7 +73,7 @@ const parentWindow = window => {
 };
 
 const openFlyoEdit = (item) => {
-  if (!allowEdit) {
+  if (!liveEdit) {
     return
   }
 
@@ -162,10 +162,10 @@ const useFlyoConfig = () => {
 };
 
 const useFlyoContent = (pageId, pageSlug) => {
-  const { allowEdit } = inject('flyo');
+  const { liveEdit } = inject('flyo');
 
   const isEditable = (authentication) => {
-    if (authentication && allowEdit) {
+    if (authentication && liveEdit) {
       return true
     }
 
@@ -316,7 +316,7 @@ const FlyoVue = {
 
 		// Provide flyo object with global / persistent data
 		Vue.provide('flyo', {
-			allowEdit: options.allowEdit,
+			liveEdit: options.liveEdit,
       		liveEditOrigin: options.liveEditOrigin
 		});
 	}

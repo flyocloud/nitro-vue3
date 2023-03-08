@@ -27,7 +27,7 @@ const FlyoVue = {
 
 		// Provide flyo object with global / persistent data
 		Vue.provide('flyo', {
-			allowEdit: options.allowEdit,
+			liveEdit: options.liveEdit,
       		liveEditOrigin: options.liveEditOrigin
 		})
 	}
