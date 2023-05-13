@@ -96,13 +96,15 @@ if (process.client && parentWindow(window)) {
     }
 
     const message = event.data;
-    if (message.action === 'contentRefresh') {
-      const data = message.data;
-      const itemIndex = props.page.json.findIndex(item => item.uid === data.uid);
+    if (message.action === 'pageRefresh') {
+      props.page = message.data;
+      /*
+      const itemIndex = props.page.json.findIndex(item => item.uid === data.uid)
       props.page.json[itemIndex] = {
         ...props.page.json[itemIndex],
         ...data
-      };
+      }
+      */
     }
   });
 }
