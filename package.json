@@ -1,6 +1,6 @@
 {
   "name": "@flyodev/nitrocms-vue3",
-  "version": "1.0.18",
+  "version": "1.0.19",
   "description": "Vue3 Components for Nitro CMS",
   "main": "./dist/index.js",
   "module": "./dist/index.js",

@@ -11,20 +11,6 @@ const FlyoVue = {
 		Vue.component(Block.name, Block)
 		Vue.component(Page.name, Page)
 
-		/* WIP
-		// Setup edit directive
-		Vue.directive('edit', {
-			beforeMount(el) {
-				el.setAttribute("contenteditable", true
-				el.addEventListener('onChange', () => {
-					console.log(el.originalValue)
-				})
-			},
-			mounted(el) {
-				el.originalValue = el.innerHtml
-			}
-		})*/
-
 		// Provide flyo object with global / persistent data
 		Vue.provide('flyo', {
 			liveEdit: options.liveEdit,

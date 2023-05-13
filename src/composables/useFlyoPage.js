@@ -1,6 +1,5 @@
 import { ref, unref } from 'vue'
 import { PagesApi } from '@flyodev/nitrocms-js'
-import { useFlyoContent } from './useFlyoContent'
 
 export const useFlyoPage = (slug) => {
   const isLoading = ref(false)
@@ -24,14 +23,10 @@ export const useFlyoPage = (slug) => {
 		}
   }
 
-	const { putContent, isEditable } = useFlyoContent(null, slug)
-
   return {
     isLoading,
     response,
     error,
-    fetch,
-    putContent,
-    isEditable
+    fetch
   }
 }

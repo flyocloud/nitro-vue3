@@ -1,4 +1,4 @@
-import { ApiClient, ConfigApi, PagesApi, EntitiesApi, SitemapApi } from '@flyodev/nitrocms-js';
+import { ApiClient, ConfigApi, EntitiesApi, PagesApi, SitemapApi } from '@flyodev/nitrocms-js';
 import { openBlock, createBlock, resolveDynamicComponent, inject, resolveComponent, createElementBlock, renderSlot, normalizeProps, mergeProps, Fragment, renderList, createCommentVNode, reactive, toRefs, ref, unref } from 'vue';
 
 const initFlyoApi = ({ apiToken, apiBasePath, defaultHeaders }) => {
@@ -167,42 +167,6 @@ const useFlyoConfig = () => {
 	}
 };
 
-const useFlyoContent = (pageId, pageSlug) => {
-  const { liveEdit } = inject('flyo');
-
-  const isEditable = (authentication) => {
-    if (authentication && liveEdit) {
-      return true
-    }
-
-    return false
-  };
-
-  const putContent = async (blockUid, contentIdentifier, authentication, newValue) => {
-    try {
-      if (!pageId) {
-        const page = await new PagesApi().page({ slug: pageSlug });
-        pageId = page.id;
-      }
-
-      const payload = {
-        value: newValue,
-        identifier: contentIdentifier,
-        uid: blockUid,
-        authentication
-      };
-      return await new ConfigApi().putContent(pageId, {content: payload})
-    } catch (e) {
-      throw e
-    }
-  };
-
-  return {
-    putContent,
-    isEditable
-  }
-};
-
 const useFlyoEntity = (uniqueid) => {
   const isLoading = ref(false);
   const response = ref(null);
@@ -255,15 +219,11 @@ const useFlyoPage = (slug) => {
 		}
   };
 
-	const { putContent, isEditable } = useFlyoContent(null, slug);
-
   return {
     isLoading,
     response,
     error,
-    fetch,
-    putContent,
-    isEditable
+    fetch
   }
 };
 
@@ -306,20 +266,6 @@ const FlyoVue = {
 		Vue.component(script$1.name, script$1);
 		Vue.component(script.name, script);
 
-		/* WIP
-		// Setup edit directive
-		Vue.directive('edit', {
-			beforeMount(el) {
-				el.setAttribute("contenteditable", true
-				el.addEventListener('onChange', () => {
-					console.log(el.originalValue)
-				})
-			},
-			mounted(el) {
-				el.originalValue = el.innerHtml
-			}
-		})*/
-
 		// Provide flyo object with global / persistent data
 		Vue.provide('flyo', {
 			liveEdit: options.liveEdit,
@@ -328,4 +274,4 @@ const FlyoVue = {
 	}
 };
 
-export { script$1 as Block, FlyoVue, script as Page, FlyoVue as default, useFlyoConfig, useFlyoContent, useFlyoEntity, useFlyoPage, useFlyoSitemap };
+export { script$1 as Block, FlyoVue, script as Page, FlyoVue as default, useFlyoConfig, useFlyoEntity, useFlyoPage, useFlyoSitemap };
