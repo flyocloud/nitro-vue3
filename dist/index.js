@@ -55,9 +55,12 @@ var script = /*#__PURE__*/Object.assign(__default__, {
     default: false
   }
 },
-  setup(__props) {
+  emits: ['update:page'],
+  setup(__props, { emit: emits }) {
 
 const props = __props;
+
+
 
 
 
@@ -97,7 +100,8 @@ if (process.client && parentWindow(window)) {
 
     const message = event.data;
     if (message.action === 'pageRefresh') {
-      props.page = message.data;
+      emits('update:page', message.data);
+
       /*
       const itemIndex = props.page.json.findIndex(item => item.uid === data.uid)
       props.page.json[itemIndex] = {
