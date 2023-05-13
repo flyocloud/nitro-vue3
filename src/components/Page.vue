@@ -16,6 +16,8 @@ const props = defineProps({
   }
 })
 
+const emits = defineEmits(['update:page'])
+
 const { liveEdit, liveEditOrigin } = inject('flyo')
 
 const parentWindow = window => {
@@ -52,7 +54,8 @@ if (process.client && parentWindow(window)) {
 
     const message = event.data
     if (message.action === 'pageRefresh') {
-      props.page = message.data
+      emits('update:page', message.data)
+
       /*
       const itemIndex = props.page.json.findIndex(item => item.uid === data.uid)
       props.page.json[itemIndex] = {
