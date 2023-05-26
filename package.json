@@ -9,7 +9,7 @@
       "import": "./dist/index.js"
     }
   },
-  "repository": "git@github.com:flyocloud/nitrocms-vue3.git",
+  "repository": "git@github.com:flyocloud/nitro-vue3.git",
   "author": "Basil Suter <git@nadar.io>",
   "license": "MIT",
   "type": "module",
