@@ -1,4 +1,4 @@
-import { ApiClient } from '@flyodev/nitrocms-js'
+import { ApiClient } from '@flyo/nitro-js'
 
 const initFlyoApi = ({ apiToken, apiBasePath, defaultHeaders }) => {
   const defaultClient = ApiClient.instance

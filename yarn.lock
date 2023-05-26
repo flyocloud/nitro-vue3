@@ -24,9 +24,9 @@
   integrity sha512-DA65VCJRetcFmJnt9/hEmRvXNCwk0V86dxG6p6N13hzDazaLRjGdTGPGgjxZOtLuFgWzOSRX4grybmRXwQ9bSg==
 
 "@flyo/nitro-js@^1.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@flyo/nitro-js/-/nitro-js-1.0.0.tgz#c5c439f76e495b29db55a1d667ca6744786543cb"
-  integrity sha512-J4kKTndNnfDMdLHQCzuZPOtWe4jFvY3KtHNAwgT7rZN3IaigkuhMYwS5fK8ju/ulf4WnU3salMYLLLzWx4eD7Q==
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@flyo/nitro-js/-/nitro-js-1.0.1.tgz#7667835d6ade82b43175115ab579410a0f9a4850"
+  integrity sha512-J9xibXFVzvW51r1gKX4dVixZwBbUto2ZfSdL+5m/Qxpd0xagq1CM/XU58YEvUm+Ad+IGrn3YcxcwdsWFLpFkAA==
   dependencies:
     "@babel/cli" "^7.0.0"
     superagent "^5.3.0"

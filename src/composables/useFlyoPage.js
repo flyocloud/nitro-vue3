@@ -1,5 +1,5 @@
 import { ref, unref } from 'vue'
-import { PagesApi } from '@flyodev/nitrocms-js'
+import { PagesApi } from '@flyo/nitro-js'
 
 export const useFlyoPage = (slug) => {
   const isLoading = ref(false)

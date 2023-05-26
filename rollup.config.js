@@ -10,7 +10,7 @@ export default [
         file: 'dist/index.js'
       }
     ],
-    external: ['@flyodev/nitrocms-js'],
+    external: ['@flyo/nitro-js'],
     plugins: [
       vue(), peerDepsExternal()
     ]

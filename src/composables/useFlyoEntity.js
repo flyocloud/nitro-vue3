@@ -1,5 +1,5 @@
 import { ref, unref } from 'vue'
-import { EntitiesApi } from '@flyodev/nitrocms-js'
+import { EntitiesApi } from '@flyo/nitro-js'
 
 export const useFlyoEntity = (uniqueid) => {
   const isLoading = ref(false)

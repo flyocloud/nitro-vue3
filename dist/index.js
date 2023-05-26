@@ -1,4 +1,4 @@
-import { ApiClient, ConfigApi, EntitiesApi, PagesApi, SitemapApi } from '@flyodev/nitrocms-js';
+import { ApiClient, ConfigApi, EntitiesApi, PagesApi, SitemapApi } from '@flyo/nitro-js';
 import { openBlock, createBlock, resolveDynamicComponent, inject, resolveComponent, createElementBlock, renderSlot, normalizeProps, mergeProps, Fragment, renderList, createCommentVNode, reactive, toRefs, ref, unref } from 'vue';
 
 const initFlyoApi = ({ apiToken, apiBasePath, defaultHeaders }) => {

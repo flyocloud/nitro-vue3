@@ -1,4 +1,4 @@
-import { ConfigApi } from '@flyodev/nitrocms-js'
+import { ConfigApi } from '@flyo/nitro-js'
 import { reactive, toRefs } from 'vue'
 
 const flyoConfigState = reactive({

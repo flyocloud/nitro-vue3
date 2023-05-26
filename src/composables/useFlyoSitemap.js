@@ -1,5 +1,5 @@
 import { ref, unref } from 'vue'
-import { SitemapApi } from '@flyodev/nitrocms-js'
+import { SitemapApi } from '@flyo/nitro-js'
 
 export const useFlyoSitemap = () => {
   const isLoading = ref(false)
