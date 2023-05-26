@@ -1,6 +1,6 @@
 {
   "name": "@flyo/nitro-vue3",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Vue3 Components for Flyo Nitro",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
