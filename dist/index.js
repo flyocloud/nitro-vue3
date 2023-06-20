@@ -9,8 +9,8 @@ const initFlyoApi = ({ apiToken, apiBasePath, defaultHeaders }) => {
 		defaultClient.basePath = apiBasePath;
 	}
 
-  const ApiKeyAuth = defaultClient.authentications["ApiKeyAuth"];
-  ApiKeyAuth.apiKey = apiToken;
+  const ApiToken = defaultClient.authentications["ApiToken"];
+  ApiToken.apiKey = apiToken;
 };
 
 const __default__$1 = {
