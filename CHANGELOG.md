@@ -1,3 +1,10 @@
+# [2.1.0](https://github.com/flyocloud/nitro-vue3/compare/v2.0.0...v2.1.0) (2026-03-11)
+
+
+### Features
+
+* add TypeScript definitions and build script for types ([338c6f1](https://github.com/flyocloud/nitro-vue3/commit/338c6f1660a54ecdb6694587056f9b6681bae955))
+
 # [2.0.0](https://github.com/flyocloud/nitro-vue3/compare/v1.0.0...v2.0.0) (2026-03-11)
 
 
