@@ -42,6 +42,7 @@
     "vitest": "^1.0.0"
   },
   "dependencies": {
+    "@flyo/nitro-js-bridge": "^1.3.0",
     "@flyo/nitro-typescript": "^1.4.0"
   }
 }

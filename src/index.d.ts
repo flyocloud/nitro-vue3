@@ -1,5 +1,6 @@
 import type { App, Component, Ref } from 'vue'
 import type {
+  Block as NitroBlock,
   Configuration,
   ConfigApi,
   EntitiesApi,
@@ -66,7 +67,10 @@ export { FlyoVue, Block, Page }
 
 export function getFlyoConfig(): Configuration | null
 
+export function editable(block: NitroBlock): { 'data-flyo-uid'?: string }
+
 export function useFlyoConfig(): UseFlyoConfigReturn
+export function useFlyoLiveEdit(): void
 export function useFlyoPage(slug: string): UseFlyoPageReturn
 export function useFlyoEntity(uniqueid: string): UseFlyoEntityReturn
 export function useFlyoSitemap(): UseFlyoSitemapReturn

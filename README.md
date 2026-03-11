@@ -182,7 +182,49 @@ Every composable returns the same reactive shape:
 
 ## Live-edit support
 
-When your site is embedded in the Flyo preview iframe, `FlyoPage` automatically listens for `pageRefresh` messages and emits `update:page` so your component can reactively update without a full reload. Enable this by passing `liveEdit: true` to the plugin options.
+When your site is embedded in the Flyo preview iframe, you can enable a full live-editing experience by passing `liveEdit: true` to the plugin options and using the `useFlyoLiveEdit` composable together with the `editable` helper.
+
+### `useFlyoLiveEdit()`
+
+Call this composable **once** in your root layout or `App.vue`. It activates the bridge features from `@flyo/nitro-js-bridge` when `liveEdit` is enabled:
+
+- **`reload()`** — reloads the page when Flyo sends a `pageRefresh` message.
+- **`scrollTo()`** — scrolls to a specific block when Flyo sends a `scrollTo` message.
+- **`highlightAndClick()`** — adds hover highlight and click-to-edit on every element with a `data-flyo-uid` attribute. A `MutationObserver` automatically wires up elements that are added after the initial render.
+
+The composable is a no-op when `liveEdit` is `false`, so it is safe to include unconditionally.
+
+```vue
+<!-- App.vue or your root layout component -->
+<script setup>
+import { useFlyoLiveEdit } from '@flyo/nitro-vue3'
+
+useFlyoLiveEdit()
+</script>
+
+<template>
+  <router-view />
+</template>
+```
+
+### `editable(block)`
+
+Returns a `{ 'data-flyo-uid': block.uid }` attribute object for a given block, or an empty object if the block has no uid. Use `v-bind` to spread it onto the root element of your block component so `useFlyoLiveEdit` can discover it.
+
+```vue
+<script setup>
+import { editable } from '@flyo/nitro-vue3'
+
+defineProps({ block: Object })
+</script>
+
+<template>
+  <section v-bind="editable(block)" class="bg-gray-200 p-8 rounded-lg text-center">
+    <h2 class="text-3xl font-bold mb-4">{{ block?.content?.title }}</h2>
+    <p class="text-lg mb-6">{{ block?.content?.teaser }}</p>
+  </section>
+</template>
+```
 
 ---
 

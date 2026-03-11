@@ -1,5 +1,6 @@
 export * from '../helpers/api'
 export * from './useFlyoConfig'
 export * from './useFlyoEntity'
+export * from './useFlyoLiveEdit'
 export * from './useFlyoPage'
 export * from './useFlyoSitemap'
