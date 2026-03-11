@@ -1,3 +1,10 @@
+## [2.2.1](https://github.com/flyocloud/nitro-vue3/compare/v2.2.0...v2.2.1) (2026-03-11)
+
+
+### Bug Fixes
+
+* **editable:** remove old window listeneres ([f8e0fec](https://github.com/flyocloud/nitro-vue3/commit/f8e0fecaafc25d87260023866fe859f3280e7661))
+
 # [2.2.0](https://github.com/flyocloud/nitro-vue3/compare/v2.1.0...v2.2.0) (2026-03-11)
 
 
