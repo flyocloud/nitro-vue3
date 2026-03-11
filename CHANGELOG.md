@@ -1,3 +1,10 @@
+# [2.3.0](https://github.com/flyocloud/nitro-vue3/compare/v2.2.1...v2.3.0) (2026-03-11)
+
+
+### Features
+
+* **FlyoPage:** automate live-edit initialization and enhance uid handling ([d7ef683](https://github.com/flyocloud/nitro-vue3/commit/d7ef683ea2887cef15673be8c0f3ada59da30a36))
+
 ## [2.2.1](https://github.com/flyocloud/nitro-vue3/compare/v2.2.0...v2.2.1) (2026-03-11)
 
 
