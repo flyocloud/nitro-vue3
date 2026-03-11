@@ -1,15 +1,15 @@
-import { ApiClient } from '@flyo/nitro-js'
+import { Configuration } from '@flyo/nitro-typescript'
+
+let _configuration = null
 
 const initFlyoApi = ({ apiToken, apiBasePath, defaultHeaders }) => {
-  const defaultClient = ApiClient.instance
-  defaultClient.defaultHeaders = defaultHeaders || {}
-
-	if (apiBasePath) {
-		defaultClient.basePath = apiBasePath
-	}
-
-  const ApiToken = defaultClient.authentications["ApiToken"]
-  ApiToken.apiKey = apiToken
+  _configuration = new Configuration({
+    apiKey: apiToken,
+    ...(apiBasePath && { basePath: apiBasePath }),
+    headers: defaultHeaders || {}
+  })
 }
+
+export const getFlyoConfig = () => _configuration
 
 export default initFlyoApi

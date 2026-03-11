@@ -2,11 +2,12 @@
   "name": "@flyo/nitro-vue3",
   "version": "1.0.2",
   "description": "Vue3 Components for Flyo Nitro",
-  "main": "./dist/index.js",
-  "module": "./dist/index.js",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
   "exports": {
     ".": {
-      "import": "./dist/index.js"
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
     }
   },
   "repository": "git@github.com:flyocloud/nitro-vue3.git",
@@ -17,19 +18,26 @@
     "dist"
   ],
   "scripts": {
-    "build": "rollup -c",
+    "build": "vite build",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "release": "npm publish --access=public"
   },
   "peerDependencies": {
     "vue": "^3.2.21"
   },
   "devDependencies": {
-    "@vue/compiler-sfc": "^3.2.47",
-    "rollup": "^3.15.0",
-    "rollup-plugin-peer-deps-external": "^2.2.4",
-    "rollup-plugin-vue": "^6.0.0"
+    "@semantic-release/changelog": "^6.0.0",
+    "@semantic-release/git": "^10.0.0",
+    "@vitejs/plugin-vue": "^5.0.0",
+    "@vue/compiler-sfc": "^3.4.0",
+    "@vue/test-utils": "^2.4.0",
+    "happy-dom": "^13.0.0",
+    "semantic-release": "^24.0.0",
+    "vite": "^5.0.0",
+    "vitest": "^1.0.0"
   },
   "dependencies": {
-    "@flyo/nitro-js": "^1.0"
+    "@flyo/nitro-typescript": "^1.4.0"
   }
 }

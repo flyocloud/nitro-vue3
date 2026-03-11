@@ -1,5 +1,6 @@
 import { ref, unref } from 'vue'
-import { SitemapApi } from '@flyo/nitro-js'
+import { SitemapApi } from '@flyo/nitro-typescript'
+import { getFlyoConfig } from '../helpers/api'
 
 export const useFlyoSitemap = () => {
   const isLoading = ref(false)
@@ -10,19 +11,20 @@ export const useFlyoSitemap = () => {
     try {
       error.value = null
       isLoading.value = true
-      response.value = JSON.parse(JSON.stringify(await new SitemapApi().sitemap()))
+      response.value = JSON.parse(JSON.stringify(await new SitemapApi(getFlyoConfig()).sitemap()))
+      isLoading.value = false
     } catch (e) {
       isLoading.value = false
-      sitemap.value = null
+      response.value = null
       error.value = JSON.parse(JSON.stringify(e))
     }
 
-		return {
-			response: unref(response),
-			error: unref(error)
-		}
+    return {
+      response: unref(response),
+      error: unref(error)
+    }
   }
-  
+
   return {
     isLoading,
     response,

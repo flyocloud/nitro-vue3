@@ -1,5 +1,6 @@
 import { ref, unref } from 'vue'
-import { EntitiesApi } from '@flyo/nitro-js'
+import { EntitiesApi } from '@flyo/nitro-typescript'
+import { getFlyoConfig } from '../helpers/api'
 
 export const useFlyoEntity = (uniqueid) => {
   const isLoading = ref(false)
@@ -10,17 +11,18 @@ export const useFlyoEntity = (uniqueid) => {
     try {
       error.value = null
       isLoading.value = true
-      response.value = JSON.parse(JSON.stringify(await new EntitiesApi().entity(uniqueid)))
+      response.value = JSON.parse(JSON.stringify(await new EntitiesApi(getFlyoConfig()).entityByUniqueid({ uniqueid })))
+      isLoading.value = false
     } catch (e) {
       isLoading.value = false
       response.value = null
       error.value = JSON.parse(JSON.stringify(e))
     }
 
-		return {
-			response: unref(response),
-			error: unref(error)
-		}
+    return {
+      response: unref(response),
+      error: unref(error)
+    }
   }
 
   return {
