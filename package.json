@@ -4,8 +4,10 @@
   "description": "Vue3 Components for Flyo Nitro",
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
       "require": "./dist/index.cjs"
     }
@@ -18,7 +20,9 @@
     "dist"
   ],
   "scripts": {
-    "build": "vite build",
+    "build": "vite build && npm run build:types",
+    "build:types": "node scripts/build-types.mjs",
+    "prepublishOnly": "npm run build",
     "test": "vitest run",
     "test:watch": "vitest",
     "release": "npm publish --access=public"
