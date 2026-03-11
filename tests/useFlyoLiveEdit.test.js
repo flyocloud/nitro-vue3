@@ -54,6 +54,14 @@ describe('useFlyoLiveEdit', () => {
     vi.clearAllMocks()
     mountedCb = null
     unmountedCb = null
+    document.body.innerHTML = ''
+  })
+
+  afterEach(() => {
+    if (typeof unmountedCb === 'function') {
+      unmountedCb()
+    }
+    document.body.innerHTML = ''
   })
 
   it('does nothing when liveEdit is false', () => {

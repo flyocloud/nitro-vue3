@@ -7,6 +7,10 @@
 </template>
 
 <script setup>
+import { useFlyoLiveEdit } from '../composables/useFlyoLiveEdit'
+
+useFlyoLiveEdit()
+
 const props = defineProps({
   page: {
     type: [Object, Boolean],

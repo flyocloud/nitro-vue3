@@ -182,30 +182,17 @@ Every composable returns the same reactive shape:
 
 ## Live-edit support
 
-When your site is embedded in the Flyo preview iframe, you can enable a full live-editing experience by passing `liveEdit: true` to the plugin options and using the `useFlyoLiveEdit` composable together with the `editable` helper.
+When your site is embedded in the Flyo preview iframe, you can enable a full live-editing experience by passing `liveEdit: true` to the plugin options. `FlyoPage` now initializes `useFlyoLiveEdit()` automatically in component setup, so users no longer need to call it manually in `App.vue` or a root layout.
 
 ### `useFlyoLiveEdit()`
 
-Call this composable **once** in your root layout or `App.vue`. It activates the bridge features from `@flyo/nitro-js-bridge` when `liveEdit` is enabled:
+This composable is automatically called by `FlyoPage` when `liveEdit` is enabled. It activates the bridge features from `@flyo/nitro-js-bridge`:
 
 - **`reload()`** — reloads the page when Flyo sends a `pageRefresh` message.
 - **`scrollTo()`** — scrolls to a specific block when Flyo sends a `scrollTo` message.
 - **`highlightAndClick()`** — adds hover highlight and click-to-edit on every element with a `data-flyo-uid` attribute. A `MutationObserver` automatically wires up elements that are added after the initial render.
 
-The composable is a no-op when `liveEdit` is `false`, so it is safe to include unconditionally.
-
-```vue
-<!-- App.vue or your root layout component -->
-<script setup>
-import { useFlyoLiveEdit } from '@flyo/nitro-vue3'
-
-useFlyoLiveEdit()
-</script>
-
-<template>
-  <router-view />
-</template>
-```
+The composable remains exported for advanced use-cases, and it is a no-op when `liveEdit` is `false`.
 
 ### `editable(block)`
 
