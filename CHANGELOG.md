@@ -1,3 +1,10 @@
+# [2.2.0](https://github.com/flyocloud/nitro-vue3/compare/v2.1.0...v2.2.0) (2026-03-11)
+
+
+### Features
+
+* add live-edit support with useFlyoLiveEdit composable and editable helper ([63eab9d](https://github.com/flyocloud/nitro-vue3/commit/63eab9d58c5a91d7d5a8a4ff61bfe59b1fe8707a))
+
 # [2.1.0](https://github.com/flyocloud/nitro-vue3/compare/v2.0.0...v2.1.0) (2026-03-11)
 
 
