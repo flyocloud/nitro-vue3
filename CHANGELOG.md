@@ -1,3 +1,10 @@
+# [2.4.0](https://github.com/flyocloud/nitro-vue3/compare/v2.3.0...v2.4.0) (2026-07-25)
+
+
+### Features
+
+* **build:** resolve @flyo/nitro-js-bridge at runtime instead of bundling it ([dcbb959](https://github.com/flyocloud/nitro-vue3/commit/dcbb95987b0b23e09e03b686f40b74e4ef37808e))
+
 # [2.3.0](https://github.com/flyocloud/nitro-vue3/compare/v2.2.1...v2.3.0) (2026-03-11)
 
 
