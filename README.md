@@ -194,6 +194,12 @@ This composable is automatically called by `FlyoPage` when `liveEdit` is enabled
 
 The composable remains exported for advanced use-cases, and it is a no-op when `liveEdit` is `false`.
 
+`@flyo/nitro-js-bridge` is not bundled into this package — it is resolved at runtime from your
+site's `node_modules`, so bridge updates reach your deployment by updating the dependency, without
+waiting for a `@flyo/nitro-vue3` release. Version `>= 1.4.0` is required: it announces the preview
+connection to the Flyo editor, which otherwise shows a «no connection to the live preview» hint even
+when the preview renders.
+
 ### `editable(block)`
 
 Returns a `{ 'data-flyo-uid': block.uid }` attribute object for a given block, or an empty object if the block has no uid. Use `v-bind` to spread it onto the root element of your block component so `useFlyoLiveEdit` can discover it.
