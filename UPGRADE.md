@@ -42,6 +42,23 @@ if (routes._empty != null) { … }
 Reading a route path (`routes.detail`) is unchanged, and `_empty: false` /
 `_empty: true` were always passed through untouched.
 
+> **Side note:** if you are generating a sitemap, you want `href` and
+> `updated_at`, not `routes`. `href` is the finished link — internal paths come
+> with a trailing slash, mail links as `mailto:…` — and `updated_at` is a Unix
+> timestamp of the last content change, made for `lastmod` (a rebuild that
+> produces identical output does not move it). `routes` is the raw map of route
+> identifiers behind that `href`; reach for it only when you need a specific
+> named route.
+>
+> ```js
+> const { response } = await useFlyoSitemap().fetch()
+>
+> const urls = response.value.map((item) => ({
+>   loc: item.href,
+>   lastmod: new Date(item.updated_at * 1000).toISOString()
+> }))
+> ```
+
 ### `routes` is typed `{ [key: string]: any }`
 
 For TypeScript consumers of the exported response types:
