@@ -1,3 +1,15 @@
+# [2.5.0](https://github.com/flyocloud/nitro-vue3/compare/v2.4.0...v2.5.0) (2026-08-18)
+
+
+### Bug Fixes
+
+* **live-edit:** skip hover wiring outside the flyo editor iframe ([061927a](https://github.com/flyocloud/nitro-vue3/commit/061927ad2554c582af9fd823f64eb06bda137bbb))
+
+
+### Features
+
+* **deps:** upgrade to nitro-typescript 1.7 and nitro-js-bridge 1.5 ([0035d90](https://github.com/flyocloud/nitro-vue3/commit/0035d9058fc886f3b343a0a71fe11a56d360d674))
+
 # [2.4.0](https://github.com/flyocloud/nitro-vue3/compare/v2.3.0...v2.4.0) (2026-07-25)
 
 
