@@ -196,9 +196,10 @@ The composable remains exported for advanced use-cases, and it is a no-op when `
 
 `@flyo/nitro-js-bridge` is not bundled into this package — it is resolved at runtime from your
 site's `node_modules`, so bridge updates reach your deployment by updating the dependency, without
-waiting for a `@flyo/nitro-vue3` release. Version `>= 1.4.0` is required: it announces the preview
-connection to the Flyo editor, which otherwise shows a «no connection to the live preview» hint even
-when the preview renders.
+waiting for a `@flyo/nitro-vue3` release. Version `>= 1.5.0` is required: `1.4.0` announces the
+preview connection to the Flyo editor — which otherwise shows a «no connection to the live preview»
+hint even when the preview renders — and `1.5.0` replaces the per-block edit buttons with a single
+shared hover overlay.
 
 ### `editable(block)`
 
@@ -230,6 +231,8 @@ This package uses [semantic-release](https://github.com/semantic-release/semanti
 | `fix:` | Patch (`1.0.x`) |
 | `feat:` | Minor (`1.x.0`) |
 | `feat!:` / `BREAKING CHANGE` | Major (`x.0.0`) |
+
+See [UPGRADE.md](UPGRADE.md) for the changes each release asks you to make.
 
 ## License
 

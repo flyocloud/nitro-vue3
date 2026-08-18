@@ -1,5 +1,5 @@
 import { inject, onMounted, onUnmounted } from 'vue'
-import { reload, scrollTo, highlightAndClick } from '@flyo/nitro-js-bridge'
+import { reload, scrollTo, highlightAndClick, isEmbedded } from '@flyo/nitro-js-bridge'
 
 let observer = null
 let mountedInstances = 0
@@ -13,6 +13,14 @@ const cleanupBindings = () => {
 
 const wireAll = () => {
   cleanupBindings()
+
+  // Outside the Flyo editor iframe highlightAndClick() has nothing to wire: it returns the
+  // "open in editor" handler instead of a cleanup function. Calling that on the next rewire
+  // or on unmount posts an openEdit message to our own window, which the browser rejects
+  // because the target origin is the editor. Skip wiring when we are not embedded.
+  if (!isEmbedded()) {
+    return
+  }
 
   document.querySelectorAll('[data-flyo-uid]').forEach((element) => {
     const uid = element.getAttribute('data-flyo-uid')

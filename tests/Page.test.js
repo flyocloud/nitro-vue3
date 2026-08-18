@@ -6,6 +6,7 @@ vi.mock('@flyo/nitro-js-bridge', () => ({
   reload: vi.fn(),
   scrollTo: vi.fn(),
   highlightAndClick: vi.fn(() => vi.fn()),
+  isEmbedded: vi.fn(() => true),
 }))
 
 const { reload, scrollTo, highlightAndClick } = await import('@flyo/nitro-js-bridge')

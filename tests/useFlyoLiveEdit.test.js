@@ -7,6 +7,7 @@ vi.mock('@flyo/nitro-js-bridge', () => ({
   reload: vi.fn(),
   scrollTo: vi.fn(),
   highlightAndClick: vi.fn(() => vi.fn()),
+  isEmbedded: vi.fn(() => true),
 }))
 
 vi.mock('vue', async () => {
@@ -19,7 +20,7 @@ vi.mock('vue', async () => {
   }
 })
 
-const { reload, scrollTo, highlightAndClick } = await import('@flyo/nitro-js-bridge')
+const { reload, scrollTo, highlightAndClick, isEmbedded } = await import('@flyo/nitro-js-bridge')
 const { inject } = await import('vue')
 const { editable, useFlyoLiveEdit } = await import('../src/composables/useFlyoLiveEdit.js')
 
@@ -52,6 +53,7 @@ describe('editable', () => {
 describe('useFlyoLiveEdit', () => {
   beforeEach(() => {
     vi.clearAllMocks()
+    isEmbedded.mockReturnValue(true)
     mountedCb = null
     unmountedCb = null
     document.body.innerHTML = ''
@@ -105,6 +107,25 @@ describe('useFlyoLiveEdit', () => {
     unmountedCb()
 
     expect(cleanupFn).toHaveBeenCalled()
+
+    document.body.removeChild(el)
+  })
+
+  it('does not wire elements when the page is not embedded in the editor', () => {
+    inject.mockReturnValue({ liveEdit: true })
+    isEmbedded.mockReturnValue(false)
+    useFlyoLiveEdit()
+
+    const el = document.createElement('div')
+    el.setAttribute('data-flyo-uid', 'block-3')
+    document.body.appendChild(el)
+
+    mountedCb()
+
+    // highlightAndClick() returns the "open in editor" handler outside the editor, which
+    // must never end up in the cleanup list — unmounting would then post an openEdit message.
+    expect(highlightAndClick).not.toHaveBeenCalled()
+    expect(() => unmountedCb()).not.toThrow()
 
     document.body.removeChild(el)
   })
